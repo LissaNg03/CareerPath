@@ -789,3 +789,29 @@ GO
 
 PRINT 'CareerPath dummy data inserted successfully.';
 GO
+
+-- CHANGING USER TYPES
+USE CareerPathDB;
+GO
+
+UPDATE CareerPath.Users
+SET UserType = 'Learner (High School)'
+WHERE UserType = 'Learner';
+
+UPDATE CareerPath.Users
+SET UserType = 'Student (Tertiary)'
+WHERE UserType = 'Student';
+GO
+
+ALTER TABLE CareerPath.Users
+DROP CONSTRAINT CK_Users_UserType;
+GO
+
+ALTER TABLE CareerPath.Users
+ADD CONSTRAINT CK_Users_UserType
+CHECK (
+    UserType = 'Learner (High School)'
+    OR UserType = 'Student (Tertiary)'
+    OR UserType = 'Graduate'
+);
+GO
